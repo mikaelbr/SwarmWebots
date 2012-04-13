@@ -6,6 +6,8 @@ Created on: 17. mars 2011
     Author: jannik
 
 """
+
+
 class retrieval(object):
 
     num_leds = 8
@@ -13,7 +15,6 @@ class retrieval(object):
     left_wheel_speed = 0
     right_wheel_speed = 0
     LED = []
-
 
     def update_speed(self, IR_number):
 
@@ -36,13 +37,12 @@ class retrieval(object):
         elif IR_number == 4:
             self.right_wheel_speed += 500
 
-
     def converge_to_box(self, IR_sensor_value, IR_threshold):
         """
             The movement for converging to the box
         """
-        left_wheel_speed = 0
-        right_wheel_speed = 0
+        self.left_wheel_speed = 0
+        self.right_wheel_speed = 0
 
         for i in range(self.num_leds):
 
@@ -52,14 +52,12 @@ class retrieval(object):
             else:
                 self.LED[i] = False
 
-
-
     def push_box(self, IR_sensor_value, IR_threshold):
         """
             The behavior when pushing the box
         """
-        left_wheel_speed = 0
-        right_wheel_speed = 0
+        self.left_wheel_speed = 0
+        self.right_wheel_speed = 0
 
         # Blink for visual pushing feedback
         for i in range(self.num_leds):
@@ -73,9 +71,8 @@ class retrieval(object):
                 self.update_speed(i)
 
         if IR_sensor_value[0] < IR_threshold > IR_sensor_value[7]:
-            left_wheel_speed = 1000
-            right_wheel_speed = 1000
-
+            self.left_wheel_speed = 1000
+            self.right_wheel_speed = 1000
 
     def select_behavior(self, IR_sensor_value):
         """
@@ -83,12 +80,11 @@ class retrieval(object):
         """
 
         self.push = False
-        converge = True
+        self.converge = True
         for i in range(self.num_leds):
             if IR_sensor_value[i] < self.push_threshold:
                 self.push = True
                 break
-
 
     ####################################
     # External functions               #
@@ -106,10 +102,8 @@ class retrieval(object):
         else:  # converge
             self.converge_to_box(IR_sensor_value, IR_threshold)
 
-
     def get_retrieval_left_wheel_speed(self):
         return self.left_wheel_speed
-
 
     def get_retrieval_right_wheel_speed(self):
         return self.right_wheel_speed
