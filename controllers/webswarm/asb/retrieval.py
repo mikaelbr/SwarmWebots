@@ -17,24 +17,23 @@ LED = []
 def update_speed(IR_number):
 
     if IR_number == 0:
-        left_wheel_speed = left_wheel_speed + 700
+        left_wheel_speed += 700
     elif IR_number == 7:
-        right_wheel_speed = right_wheel_speed + 700
+        right_wheel_speed += 700
     elif IR_number == 1:
-        left_wheel_speed = left_wheel_speed + 350
+        left_wheel_speed += 350
     elif IR_number == 6:
-        right_wheel_speed = right_wheel_speed + 350
+        right_wheel_speed += 350
     elif IR_number == 2:
-        left_wheel_speed = left_wheel_speed + 550
-        right_wheel_speed = right_wheel_speed - 300
+        left_wheel_speed += 550
+        right_wheel_speed -= 300
     elif IR_number == 5:
-        right_wheel_speed = right_wheel_speed + 550
-        left_wheel_speed = left_wheel_speed - 300
+        right_wheel_speed += 550
+        left_wheel_speed -= 300
     elif IR_number == 3:
-        left_wheel_speed = left_wheel_speed + 500
+        left_wheel_speed += 500
     elif IR_number == 4:
-        right_wheel_speed = right_wheel_speed + 500
-
+        right_wheel_speed += 500
 
 
 def converge_to_box(IR_sensor_value, IR_threshold):
@@ -71,11 +70,12 @@ def push_box(IR_sensor_value, IR_threshold):
 
         if IR_sensor_value[i] < IR_threshold:
             update_speed(i)
-    
-    if (IR_sensor_value[0] < IR_threshold) and (IR_sensor_value[7]<IR_threshold):
+
+    if IR_sensor_value[0] < IR_threshold and IR_sensor_value[7] < IR_threshold:
         left_wheel_speed = 1000
         right_wheel_speed = 1000
-    
+
+
 def select_behavior(IR_sensor_value):
     """
         Selects the behavior push or converge
@@ -99,17 +99,20 @@ def swarm_retrieval(IR_sensor_value, IR_threshold):
     """
     select_behavior(IR_sensor_value)
 
-    if(push):
+    if push:
         push_box(IR_sensor_value, IR_threshold)
 
-    else: # converge
+    else:  # converge
         converge_to_box(IR_sensor_value, IR_threshold)
-
 
 
 def get_retrieval_left_wheel_speed():
     return left_wheel_speed
 
+
 def get_retrieval_right_wheel_speed():
     return right_wheel_speed
 
+print left_wheel_speed
+update_speed(0)
+print left_wheel_speed

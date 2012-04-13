@@ -15,11 +15,11 @@ search.c - Search and Avoid behavior.
 from random import random
 
 
-
 COUNTLIMIT = 20
 
-# Case scenarios for for navigation 
-case_script= [
+
+# Case scenarios for for navigation
+case_script = [
     [0,0,0,0,1,1],
     [0,0,0,1,1,0],
     [0,0,1,0,1,0],
