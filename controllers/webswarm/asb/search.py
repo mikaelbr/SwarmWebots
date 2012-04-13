@@ -15,122 +15,98 @@ search.c - Search and Avoid behavior.
 from random import random
 
 
-COUNTLIMIT = 20
+class Search(object):
+    rand_double_left = 0
+    rand_double_right = 0
+    count_limit=20
+    rand_double_left=0
+    rand_double_right=0
+    counter=0
+    case_script = [
+        [0,0,0,0,1,1],
+        [0,0,0,1,1,0],
+        [0,0,1,0,1,0],
+        [0,0,1,1,1,0],
+        [0,1,0,0,0,1],
+        [0,1,0,1,1,0],
+        [0,1,1,0,0,1],
+        [0,1,1,1,1,0],
+        [1,0,0,0,0,1],
+        [1,0,0,1,1,0],
+        [1,0,1,0,0,1],
+        [1,0,1,1,1,0],
+        [1,1,0,0,0,1],
+        [1,1,0,1,1,0],
+        [1,1,1,0,0,1],
+        [1,1,1,1,0,1]
+    ]
+    def __init__(self,right_wheel_speed=0,left_wheel_speed=0):
+        self.left_wheel_speed = left_wheel_speed
+        self.right_wheel_speed = right_wheel_speed
+
+    def rand_double(self):
+        """
+            Generates random double for left and right search speed
+        """
+        self.rand_double_left = random()
+        self.rand_double_right = random()
+
+    def calculate_search_speed(self,threshold_list):
+        """
+            Given the input compared to the case script; where do we want to go?
+        """
+        self.counter += 1
+
+        for i in range(16):
+
+            if threshold_list[0] == self.case_script[i][0]\
+               and threshold_list[1] == self.case_script[i][1]\
+               and threshold_list[2] == self.case_script[i][2]\
+            and threshold_list[3] == self.case_script[i][3]:
+
+                if self.counter == self.count_limit:
+                    self.counter = 0
+                    self.rand_double()
+
+                if self.case_script[i][4] == self.case_script[i][5]: # Free passage; Straight forward
+                    self.left_wheel_speed = (self.rand_double_left*500) + 500
+                    self.right_wheel_speed = (self.rand_double_right*500) + 500
+
+                elif self.case_script[i][4] == 1 and self.case_script[i][5] == 0: # Turn left
+                    self.left_wheel_speed = -300
+                    self.right_wheel_speed = 700
+
+                else: # Turn right
+                    self.left_wheel_speed = 700
+                    self.right_wheel_speed = -300
+
+    def calculate_threshold(self,sensors,distance_threshold):
+        """
+            Calculate if there is an obstacle or not, depending on the threshold
+        """
+        threshold_list = []
+        for i in range (4):
+            if sensors[i] > distance_threshold[i]:
+                threshold_list.append(1) # obstacle
+            else:
+                threshold_list.append(0) # Free passage
+        self.calculate_search_speed(threshold_list)
+
+    def update_search_speed(self,sensor_value, distance_threshold):
+        """
+            Given the sensor input and threshold, calculates the speed for survival
+        """
+        sensors = [sensor_value[6], sensor_value[7], sensor_value[0], sensor_value[1]]
+        self.calculate_threshold(sensors, distance_threshold)
 
 
-# Case scenarios for for navigation
-case_script = [
-    [0,0,0,0,1,1],
-    [0,0,0,1,1,0],
-    [0,0,1,0,1,0],
-    [0,0,1,1,1,0],
-    [0,1,0,0,0,1],
-    [0,1,0,1,1,0],
-    [0,1,1,0,0,1],
-    [0,1,1,1,1,0],
-    [1,0,0,0,0,1],
-    [1,0,0,1,1,0],
-    [1,0,1,0,0,1],
-    [1,0,1,1,1,0],
-    [1,1,0,0,0,1],
-    [1,1,0,1,1,0],
-    [1,1,1,0,0,1],
-    [1,1,1,1,0,1]
-]
+""" just for tests """
+def main():
+    s = Search()
+    s.rand_double()
+    sensor_value= [random() for i in range(8)]
+    distance_threshold = [random() for i in range(16)]
+    s.update_search_speed(sensor_value,distance_threshold)
 
-
-# Wheel speed variables
-left_wheel_speed = 0 # default 0
-right_wheel_speed = 0
-
-# Random search speed
-rand_double_left = 0
-rand_double_right = 0
-
-# Counter
-counter = 0
-
-
-###########################
-# Internal functions
-###########################
-
-def randdouble():
-    """
-        Generates random double for left and right search speed
-    """
-    rand_double_left =  random()
-    rand_double_right = random()
-
-
-def calculate_search_speed(threshold_list):
-    """
-        Given the input compared to the case script; where do we want to go?
-    """
-    
-    counter += 1;
-
-    for i in range(16):
-
-        if threshold_list[0] == case_script[i][0] \
-            and threshold_list[1] == case_script[i][1] \
-            and threshold_list[2] == case_script[i][2] \
-            and threshold_list[3] == case_script[i][3]:
-
-            if counter == COUNTLIMIT:
-                counter = 0
-                randdouble()
-
-            if case_script[i][4] == case_script[i][5]: # Free passage; Straight forward
-                left_wheel_speed = (rand_double_left*500) + 500
-                right_wheel_speed = (rand_double_right*500) + 500
-
-            elif case_script[i][4] == 1 and case_script[i][5] == 0: # Turn left
-                left_wheel_speed = -300
-                right_wheel_speed = 700
-
-            else: # Turn right
-                left_wheel_speed = 700
-                right_wheel_speed = -300
-
-
-            return
-        
-
-def calculate_threshold(sensors, distance_threshold):
-    """
-        Calculate if there is an obstacle or not, depending on the threshold
-    """
-    threshold_list = []
-    for i in range (4):
-        if sensors[i] > distance_threshold:
-            threshold_list[i] = 1 # obstacle
-        else:
-            threshold_list[i] = 0 # Free passage
-
-    calculate_search_speed(threshold_list)
-
-
-
-#########################
-# External functions
-#########################
-
-def update_search_speed(sensor_value, distance_threshold):
-    """
-        Given the sensor input and threshold, calculates the speed for survival
-    """
-    sensors = [sensor_value[6], sensor_value[7], sensor_value[0], sensor_value[1]]
-    calculate_treshold(sensors, distance_threshold)
-
-
-def get_search_left_wheel_speed():
-    return left_wheel_speed
-
-def get_search_right_wheel_speed():
-    return right_wheel_speed
-
-
-
-
-
+if __name__ == "__main__":
+    main()
