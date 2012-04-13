@@ -9,8 +9,8 @@ WorldInfo {
   runRealTime TRUE
 }
 Viewpoint {
-  orientation 0.993923 0.109426 0.0119816 5.73543
-  position -0.312902 2.06845 3.30978
+  orientation 0.995648 0.0840467 -0.0402757 5.6652
+  position -0.103587 2.17782 3.11529
 }
 PointLight {
   ambientIntensity 0.5
@@ -120,6 +120,69 @@ Solid {
     USE WALL_SHAPE
   ]
   boundingObject USE WALL_SHAPE
+}
+DEF E_PUCK EPuck {
+  translation 0.456362 -7.49069e-05 0.521488
+  rotation 0 1 0 5.83853
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.837126 0.788822
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
+}
+DEF E_PUCK EPuck {
+  translation -0.641894 -7.49069e-05 0.568071
+  rotation -0.000818471 1 0.00015494 4.26773
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.837126 0.788822
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
+}
+DEF E_PUCK EPuck {
+  translation 0.793606 -7.49069e-05 0.698958
+  rotation -0.000818471 1 0.00015494 -2.01547
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.837126 0.788822
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
+}
+DEF E_PUCK EPuck {
+  translation -0.112277 -7.49069e-05 0.711069
+  rotation -0.000818471 1 0.00015494 3.48233
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.837126 0.788822
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
+}
+DEF E_PUCK EPuck {
+  translation 0.583588 -7.49069e-05 -0.610301
+  rotation -0.000818471 1 0.00015494 -1.23007
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.837126 0.788822
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
+}
+DEF E_PUCK EPuck {
+  translation -0.78973 -7.49069e-05 -0.616908
+  rotation -0.000818471 1 0.00015494 1.12613
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.837126 0.788822
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
+}
+DEF E_PUCK EPuck {
+  translation -0.793796 -7.49069e-05 0.278539
+  rotation -0.000818471 1 0.00015494 0.340727
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.837126 0.788822
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
 }
 DEF E_PUCK EPuck {
   translation 0.768479 -7.49069e-05 0.0129573
