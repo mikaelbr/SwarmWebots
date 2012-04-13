@@ -62,10 +62,7 @@ class retrieval(object):
         # Blink for visual pushing feedback
         for i in range(self.num_leds):
 
-            if self.LED[i]:
-                self.LED[i] = False
-            else:
-                self.LED[i] = True
+            self.LED[i] = not self.LED[i]
 
             if IR_sensor_value[i] < IR_threshold:
                 self.update_speed(i)
