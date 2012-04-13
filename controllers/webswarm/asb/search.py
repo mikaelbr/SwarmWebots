@@ -66,7 +66,7 @@ class Search(object):
 
                 if self.counter == self.count_limit:
                     self.counter = 0
-                    randdouble()
+                    self.rand_double()
 
                 if self.case_script[i][4] == self.case_script[i][5]: # Free passage; Straight forward
                     self.left_wheel_speed = (self.rand_double_left*500) + 500
