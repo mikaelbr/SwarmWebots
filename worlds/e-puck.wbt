@@ -9,8 +9,8 @@ WorldInfo {
   runRealTime TRUE
 }
 Viewpoint {
-  orientation -0.363944 0.864293 0.347193 1.64748
-  position 3.36611 2.97516 0.0967999
+  orientation 0.993923 0.109426 0.0119816 5.73543
+  position -0.312902 2.06845 3.30978
 }
 PointLight {
   ambientIntensity 0.5
@@ -29,7 +29,6 @@ Background {
   ]
 }
 DEF ground Solid {
-  translation 0 -0.0001 0
   children [
     Shape {
       appearance Appearance {
@@ -83,173 +82,6 @@ DEF ground Solid {
     ]
   }
 }
-DEF short_rock_1 Solid {
-  translation -0.1 0.05 -0.6
-  rotation 0 1 0 0.5
-  children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0.0352941 0.0117647 0.0235294
-        }
-        texture ImageTexture {
-          url [
-            "textures/stone-2.png"
-          ]
-        }
-      }
-      geometry DEF short_brick_1_geometry Box {
-        size 0.15 0.1 0.1
-      }
-    }
-  ]
-  name "long black block"
-  boundingObject USE short_brick_1_geometry
-}
-DEF short_rock_2 Solid {
-  translation 0.5 0.05 0.5
-  rotation 0 1 0 4.96782
-  children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 1 1 1
-        }
-        texture ImageTexture {
-          url [
-            "textures/stone-2.png"
-          ]
-        }
-      }
-      geometry DEF short_brick_1_geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "small black block"
-  boundingObject USE short_brick_1_geometry
-}
-DEF short_rock_3 Solid {
-  translation -0.2 0.05 0.2
-  rotation 0 1 0 5.36782
-  children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0.0235294 0.00784314 1
-          emissiveColor 0.00784314 0.00392157 1
-        }
-        texture ImageTexture {
-          url [
-            "textures/stone-2.png"
-          ]
-        }
-      }
-      geometry DEF short_brick_1_geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "short blue block"
-  boundingObject USE short_brick_1_geometry
-}
-DEF short_rock_4 Solid {
-  translation -0.3 0.05 -0.8
-  rotation 0 1 0 5.36782
-  children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 1 0.0117647 0.0117647
-          emissiveColor 1 0.0235294 0.0117647
-        }
-        texture ImageTexture {
-          url [
-            "textures/stone-2.png"
-          ]
-        }
-      }
-      geometry DEF short_brick_1_geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "short red block"
-  boundingObject USE short_brick_1_geometry
-}
-DEF short_rock_5 Solid {
-  translation -0.64 0.05 0.8
-  rotation 0 1 0 5.36782
-  children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0.0392157 1 0.152941
-          emissiveColor 0.00784314 1 0.0627451
-        }
-        texture ImageTexture {
-          url [
-            "textures/stone-2.png"
-          ]
-        }
-      }
-      geometry DEF short_brick_1_geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "short green block"
-  boundingObject USE short_brick_1_geometry
-}
-DEF short_rock_5 Solid {
-  translation 0.4 0.05 0.4
-  rotation 0 1 0 5.36782
-  children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0.0392157 1 0.152941
-          emissiveColor 0.00784314 1 0.0627451
-        }
-        texture ImageTexture {
-          url [
-            "textures/stone-2.png"
-          ]
-        }
-      }
-      geometry DEF short_brick_1_geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "short green block"
-  boundingObject USE short_brick_1_geometry
-}
-DEF short_rock_6 Solid {
-  translation 0 0.05 -0.1
-  rotation 0 1 0 5.36782
-  children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0 0.0980392 0.0117647
-          emissiveColor 0.984314 1 0.972549
-          specularColor 1 0.984314 0.968627
-        }
-        texture ImageTexture {
-          url [
-            ""
-          ]
-        }
-      }
-      geometry DEF short_brick_1_geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "short white brick"
-  boundingObject USE short_brick_1_geometry
-}
 Solid {
   translation 1 0.05 0
   children [
@@ -290,11 +122,17 @@ Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF E_PUCK EPuck {
-  translation 0.768479 -0.000163958 0.0129573
-  rotation 0.00127572 0.999999 -0.000236335 0.340727
-  controller "webann"
+  translation 0.768479 -7.49069e-05 0.0129573
+  rotation -0.000818471 1 0.00015494 0.340727
+  controller "webswarm"
   name "e-puck camera"
   camera_windowPosition 0.837126 0.788822
   camera_fieldOfView 0.6
   camera_pixelSize 4
+}
+DEF Food WoodBox {
+  translation 0 0.05 0
+  boxSize 0.4 0.1 0.4
+  physics Physics {
+  }
 }
