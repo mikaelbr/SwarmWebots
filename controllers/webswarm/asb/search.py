@@ -65,7 +65,7 @@ class Search(object):
             if threshold_list[0] == self.case_script[i][0]\
                and threshold_list[1] == self.case_script[i][1]\
                and threshold_list[2] == self.case_script[i][2]\
-            and threshold_list[3] == self.case_script[i][3]:
+               and threshold_list[3] == self.case_script[i][3]:
 
                 if self.counter == self.count_limit:
                     self.counter = 0
