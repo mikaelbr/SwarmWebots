@@ -97,7 +97,7 @@ def calculate_search_speed(threshold_list):
             return
         
 
-def calculate_treshold(sensors, distance_threshold):
+def calculate_threshold(sensors, distance_threshold):
     """
         Calculate if there is an obstacle or not, depending on the threshold
     """

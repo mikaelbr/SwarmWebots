@@ -104,7 +104,7 @@ def swarm_retrieval(IR_sensor_value, IR_threshold):
 
     else: # converge
         converge_to_box(IR_sensor_value, IR_threshold)
-}
+
 
 
 def get_retrieval_left_wheel_speed():
@@ -113,8 +113,3 @@ def get_retrieval_left_wheel_speed():
 def get_retrieval_right_wheel_speed():
     return right_wheel_speed
 
-int get_LED_state(LED_num)
-    """
-        Returns the state (True/False) of the given LED number
-    """
-    return LED[LED_num]
