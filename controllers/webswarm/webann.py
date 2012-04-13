@@ -3,8 +3,8 @@
 
 import epuck_basic as epb
 from imagepro import *
-from ann.ann import Ann
-from ann.parser import AnnParser
+#from ann.ann import Ann
+#from ann.parser import AnnParser
 
 # The webann is a descendent of the webot "controller" class, and it has the ANN as an attribute.
 class WebAnn(epb.EpuckBasic):
@@ -83,10 +83,10 @@ class BackProp(WebAnn):
         print "Done using back propagation\nRun robot! Run!"
 
 
-ann = AnnParser("ann/scripts/ann.ini").create_ann()
+#ann = AnnParser("ann/scripts/ann.ini").create_ann()
 
 # controller = WebAnn(ann)
-controller = BackProp(ann)
+#controller = BackProp(ann)
 
 for i in ann.output_nodes:
     for j in i.incomming:
