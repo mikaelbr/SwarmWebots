@@ -9,8 +9,8 @@ WorldInfo {
   runRealTime TRUE
 }
 Viewpoint {
-  orientation 0.995648 0.0840467 -0.0402757 5.6652
-  position -0.103587 2.17782 3.11529
+  orientation 0.23529 0.918055 0.319083 4.21482
+  position -1.85595 1.75684 -0.921681
 }
 PointLight {
   ambientIntensity 0.5
@@ -122,80 +122,129 @@ Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF E_PUCK EPuck {
-  translation 0.456362 -7.49069e-05 0.521488
-  rotation 0 1 0 5.83853
+  translation -0.330087 -4.79294e-05 0.0237
+  rotation 0.000408931 1 -0.000517592 1.77303
   controller "webswarm"
   name "e-puck camera"
-  camera_windowPosition 0.837126 0.788822
+  camera_windowPosition 0.126143 0.33765
   camera_fieldOfView 0.6
   camera_pixelSize 4
 }
-DEF E_PUCK EPuck {
-  translation -0.641894 -7.49069e-05 0.568071
-  rotation -0.000818471 1 0.00015494 4.26773
-  controller "webswarm"
-  name "e-puck camera"
-  camera_windowPosition 0.837126 0.788822
-  camera_fieldOfView 0.6
-  camera_pixelSize 4
-}
-DEF E_PUCK EPuck {
-  translation 0.793606 -7.49069e-05 0.698958
-  rotation -0.000818471 1 0.00015494 -2.01547
-  controller "webswarm"
-  name "e-puck camera"
-  camera_windowPosition 0.837126 0.788822
-  camera_fieldOfView 0.6
-  camera_pixelSize 4
-}
-DEF E_PUCK EPuck {
-  translation -0.112277 -7.49069e-05 0.711069
-  rotation -0.000818471 1 0.00015494 3.48233
-  controller "webswarm"
-  name "e-puck camera"
-  camera_windowPosition 0.837126 0.788822
-  camera_fieldOfView 0.6
-  camera_pixelSize 4
-}
-DEF E_PUCK EPuck {
-  translation 0.583588 -7.49069e-05 -0.610301
-  rotation -0.000818471 1 0.00015494 -1.23007
-  controller "webswarm"
-  name "e-puck camera"
-  camera_windowPosition 0.837126 0.788822
-  camera_fieldOfView 0.6
-  camera_pixelSize 4
-}
-DEF E_PUCK EPuck {
-  translation -0.78973 -7.49069e-05 -0.616908
-  rotation -0.000818471 1 0.00015494 1.12613
-  controller "webswarm"
-  name "e-puck camera"
-  camera_windowPosition 0.837126 0.788822
-  camera_fieldOfView 0.6
-  camera_pixelSize 4
-}
-DEF E_PUCK EPuck {
-  translation -0.793796 -7.49069e-05 0.278539
-  rotation -0.000818471 1 0.00015494 0.340727
-  controller "webswarm"
-  name "e-puck camera"
-  camera_windowPosition 0.837126 0.788822
-  camera_fieldOfView 0.6
-  camera_pixelSize 4
-}
-DEF E_PUCK EPuck {
-  translation 0.768479 -7.49069e-05 0.0129573
-  rotation -0.000818471 1 0.00015494 0.340727
-  controller "webswarm"
-  name "e-puck camera"
-  camera_windowPosition 0.837126 0.788822
-  camera_fieldOfView 0.6
-  camera_pixelSize 4
-}
-DEF Food WoodBox {
-  translation 0 0.05 0
-  boxSize 0.4 0.1 0.4
+DEF FoodSource Robot {
+  translation 1.19522e-18 0.0498718 2.71565e-19
+  rotation -0.195758 0.0603915 -0.978791 0
+  children [
+    Emitter {
+      translation 0.25 0 0.2
+      type "infra-red"
+      range 0.3
+      aperture 3.14159
+      channel 3
+    }
+    Emitter {
+      translation 0.25 0 -0.2
+      type "infra-red"
+      range 0.3
+      aperture 3.14159
+      channel 3
+    }
+    Emitter {
+      translation 0.25 0 0
+      type "infra-red"
+      range 0.3
+      aperture 3.14159
+      channel 3
+    }
+    Emitter {
+      translation 0 0 -0.25
+      rotation 0 1 0 1.5708
+      type "infra-red"
+      range 0.3
+      aperture 3.14159
+      channel 3
+    }
+    Emitter {
+      translation 0.2 0 -0.25
+      rotation 0 1 0 1.5708
+      type "infra-red"
+      range 0.3
+      aperture 3.14159
+      channel 3
+    }
+    Emitter {
+      translation -0.2 0 -0.25
+      rotation 0 1 0 1.5708
+      type "infra-red"
+      range 0.3
+      aperture 3.14159
+      channel 3
+    }
+    Emitter {
+      translation -0.25 0 0
+      rotation 0 1 0 -3.14159
+      type "infra-red"
+      range 0.3
+      aperture 3.14159
+      channel 3
+    }
+    Emitter {
+      translation -0.25 0 -0.2
+      rotation 0 1 0 -3.14159
+      type "infra-red"
+      range 0.3
+      aperture 3.14159
+      channel 3
+    }
+    Emitter {
+      translation -0.25 0 0.2
+      rotation 0 1 0 -3.14159
+      type "infra-red"
+      range 0.3
+      aperture 3.14159
+      channel 3
+    }
+    Emitter {
+      translation 0 0 0.25
+      rotation 0 1 0 -1.57
+      type "infra-red"
+      range 0.3
+      aperture 3.14159
+      channel 3
+    }
+    Emitter {
+      translation 0.2 0 0.25
+      rotation 0 1 0 -1.57
+      type "infra-red"
+      range 0.3
+      aperture 3.14159
+      channel 3
+    }
+    Emitter {
+      translation -0.2 0 0.25
+      rotation 0 1 0 -1.57
+      type "infra-red"
+      range 0.3
+      aperture 3.14159
+      channel 3
+    }
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.419608 0.984314 1
+          transparency 0.2
+        }
+      }
+      geometry Box {
+        size 0.5 0.1 0.5
+      }
+    }
+  ]
+  name "food source"
+  boundingObject Box {
+    size 0.5 0.1 0.5
+  }
   physics Physics {
+    density -1
+    mass 0.324
   }
 }

@@ -94,6 +94,7 @@ class Search(object):
                 threshold_list.append(1)  # obstacle
             else:
                 threshold_list.append(0)  # Free passage
+
         self.calculate_search_speed(threshold_list)
 
     def update_search_speed(self, sensor_value, distance_threshold):
