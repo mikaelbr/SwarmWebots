@@ -13,15 +13,14 @@ search.c - Search and Avoid behavior.
 
 """
 from random import random
+from behavior_module import *
 
 
-class Search(object):
+class Search(BehaviorModule):
 
     rand_double_left = 0
     rand_double_right = 0
     count_limit = 20
-    rand_double_left = 0
-    rand_double_right = 0
     counter = 0
 
     case_script = [
@@ -43,9 +42,8 @@ class Search(object):
         [1, 1, 1, 1, 0, 1]
     ]
 
-    def __init__(self, right_wheel_speed=0, left_wheel_speed=0):
-        self.left_wheel_speed = left_wheel_speed
-        self.right_wheel_speed = right_wheel_speed
+    def __init__(self):
+        super(Search, self).__init__()
 
     def rand_double(self):
         """
@@ -103,6 +101,9 @@ class Search(object):
         """
         sensors = [sensor_value[6], sensor_value[7], sensor_value[0], sensor_value[1]]
         self.calculate_threshold(sensors, distance_threshold)
+
+    def do(self):
+        self.update_search_speed(self.robot.distance_sensors, self.robot.distance_threshold)
 
 
 def main():

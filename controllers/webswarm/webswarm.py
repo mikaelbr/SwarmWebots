@@ -47,12 +47,13 @@ class Webswarm(epb.EpuckBasic):
 
         while True:  # main loop
 
-            self.read_receiver()
+            # self.read_receiver()
 
-            print self.get_proximities()
+            # print self.get_proximities()
 
-            self.spin_angle(-.1)
-            self.wait(0.3)
+            # self.spin_angle(-.1)
+            # self.wait(0.3)
+            print "Her"
 
             if self.step(self.timestep) == -1:
                 break
