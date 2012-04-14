@@ -16,6 +16,9 @@ class Webswarm(epb.EpuckBasic):
 
         self.basic_setup()  # defined for EpuckBasic
         self.tempo = tempo
+        self.receiver = self.getReceiver('receiver')
+        self.timestep = 64
+        self.receiver.enable(self.timestep)
 
     def drive_speed(self, left=0, right=0):
         """
@@ -24,9 +27,27 @@ class Webswarm(epb.EpuckBasic):
         ms = self.tempo * 1000
         self.setSpeed(int(left * ms), int(right * ms))
 
+    def read_receiver(self):
+        print "Queue Length: ", self.receiver.getQueueLength()
+        # print "Emitter dir", self.receiver.getEmitterDirection()
+        print "Channel", self.receiver.getChannel()
+        print "Signal Strength", self.receiver.getSignalStrength()
+
+        while self.receiver.getQueueLength() > 0:
+            print "Heeer"
+            message = self.receiver.getData()
+            self.receiver.nextPacket()
+
+            print message
+
+            if message == "FOOD":
+                print "Found some food up in hea'"
+
     def run(self):
 
         while True:  # main loop
+
+            self.read_receiver()
 
             print self.get_proximities()
 
@@ -39,3 +60,31 @@ class Webswarm(epb.EpuckBasic):
 
 ws = Webswarm()
 ws.run()
+
+
+"""
+
+public myFoodController() {
+    super();
+    
+    emitter = getEmitter("emitter");
+  }
+  public void run() {
+    do {
+      
+      emitter.send(message);
+    } while (step(64) != -1);
+  }
+epuck:
+epuck controller:
+ while(receiver.getQueueLength()>0){
+        byte[] message = receiver.getData();
+        //System.out.println("Found message of length "+message.length);
+        if(message[0]==FOOD){
+          //System.out.println("Close to food!");
+          foundFood = true;
+        }
+        receiver.nextPacket();
+      }
+
+"""

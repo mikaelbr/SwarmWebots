@@ -9,8 +9,8 @@ WorldInfo {
   runRealTime TRUE
 }
 Viewpoint {
-  orientation 0.23529 0.918055 0.319083 4.21482
-  position -1.85595 1.75684 -0.921681
+  orientation -0.00864559 -0.99104 -0.133285 3.30486
+  position 0.256239 0.676669 -2.32638
 }
 PointLight {
   ambientIntensity 0.5
@@ -122,8 +122,8 @@ Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF E_PUCK EPuck {
-  translation -0.330087 -4.79294e-05 0.0237
-  rotation 0.000408931 1 -0.000517592 1.77303
+  translation -0.805844 -6.40264e-05 -0.0198286
+  rotation -4.26067e-05 1 3.72029e-05 1.25639
   controller "webswarm"
   name "e-puck camera"
   camera_windowPosition 0.126143 0.33765
@@ -131,101 +131,11 @@ DEF E_PUCK EPuck {
   camera_pixelSize 4
 }
 DEF FoodSource Robot {
-  translation 1.19522e-18 0.0498718 2.71565e-19
-  rotation -0.195758 0.0603915 -0.978791 0
+  translation 5.68446e-18 0.0498729 3.64013e-19
+  rotation 2.47785e-15 0.063653 0.997972 -0
   children [
     Emitter {
-      translation 0.25 0 0.2
-      type "infra-red"
-      range 0.3
-      aperture 3.14159
-      channel 3
-    }
-    Emitter {
-      translation 0.25 0 -0.2
-      type "infra-red"
-      range 0.3
-      aperture 3.14159
-      channel 3
-    }
-    Emitter {
-      translation 0.25 0 0
-      type "infra-red"
-      range 0.3
-      aperture 3.14159
-      channel 3
-    }
-    Emitter {
-      translation 0 0 -0.25
-      rotation 0 1 0 1.5708
-      type "infra-red"
-      range 0.3
-      aperture 3.14159
-      channel 3
-    }
-    Emitter {
-      translation 0.2 0 -0.25
-      rotation 0 1 0 1.5708
-      type "infra-red"
-      range 0.3
-      aperture 3.14159
-      channel 3
-    }
-    Emitter {
-      translation -0.2 0 -0.25
-      rotation 0 1 0 1.5708
-      type "infra-red"
-      range 0.3
-      aperture 3.14159
-      channel 3
-    }
-    Emitter {
-      translation -0.25 0 0
-      rotation 0 1 0 -3.14159
-      type "infra-red"
-      range 0.3
-      aperture 3.14159
-      channel 3
-    }
-    Emitter {
-      translation -0.25 0 -0.2
-      rotation 0 1 0 -3.14159
-      type "infra-red"
-      range 0.3
-      aperture 3.14159
-      channel 3
-    }
-    Emitter {
-      translation -0.25 0 0.2
-      rotation 0 1 0 -3.14159
-      type "infra-red"
-      range 0.3
-      aperture 3.14159
-      channel 3
-    }
-    Emitter {
-      translation 0 0 0.25
-      rotation 0 1 0 -1.57
-      type "infra-red"
-      range 0.3
-      aperture 3.14159
-      channel 3
-    }
-    Emitter {
-      translation 0.2 0 0.25
-      rotation 0 1 0 -1.57
-      type "infra-red"
-      range 0.3
-      aperture 3.14159
-      channel 3
-    }
-    Emitter {
-      translation -0.2 0 0.25
-      rotation 0 1 0 -1.57
-      type "infra-red"
-      range 0.3
-      aperture 3.14159
-      channel 3
+      range 0.6
     }
     Shape {
       appearance Appearance {
@@ -247,4 +157,5 @@ DEF FoodSource Robot {
     density -1
     mass 0.324
   }
+  controller "food"
 }
