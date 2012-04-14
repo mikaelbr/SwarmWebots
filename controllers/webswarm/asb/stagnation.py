@@ -10,9 +10,10 @@ robot, hopefully getting a spot which will result
 
 """
 from random import random
+from behavior_module import *
 
 
-class Stagnation(object):
+class Stagnation(BehaviorModule):
 
     IR_DIFF_THRESHOLD = 4
     DISTANCE_DIFF_THRESHOLD = 10
@@ -25,10 +26,6 @@ class Stagnation(object):
 
     ALIGN_STRAIGTH_THRESHOLD = 10  # If bigger, align straight
     LOW_DIST_VALUE = 10  # if lower (and detecting IR), the sensor is close.
-
-    # Wheel speed variables
-    left_wheel_speed = 0
-    right_wheel_speed = 0
 
     # Boolean variables
     has_recovered = False
@@ -47,6 +44,9 @@ class Stagnation(object):
     ################################
     # Internal functions
     ################################
+
+    def __init__(self):
+        super(Stagnation, self).__init__()
 
     def LED_blink(self):
         """

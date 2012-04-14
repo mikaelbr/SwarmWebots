@@ -6,15 +6,18 @@ Created on: 17. mars 2011
     Author: jannik
 
 """
+from behavior_module import *
 
 
-class retrieval(object):
+class Retrieval(BehaviorModule):
 
     num_leds = 8
     push_threshold = 500
-    left_wheel_speed = 0
-    right_wheel_speed = 0
+
     LED = []
+
+    def __init__(self):
+        super(Search, self).__init__()
 
     def update_speed(self, IR_number):
 
@@ -41,9 +44,6 @@ class retrieval(object):
         """
             The movement for converging to the box
         """
-        self.left_wheel_speed = 0
-        self.right_wheel_speed = 0
-
         for i in range(self.num_leds):
 
             if IR_sensor_value[i] < IR_threshold:
@@ -99,11 +99,8 @@ class retrieval(object):
         else:  # converge
             self.converge_to_box(IR_sensor_value, IR_threshold)
 
-    def get_retrieval_left_wheel_speed(self):
-        return self.left_wheel_speed
-
-    def get_retrieval_right_wheel_speed(self):
-        return self.right_wheel_speed
+    def do(self):
+        self.swarm_retrieval(self.robot.IR_sensors, self.robot.IR_threshold)
 
 """
 print left_wheel_speed
