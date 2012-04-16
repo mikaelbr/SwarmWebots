@@ -2,7 +2,7 @@
 # to webots.
 
 import epuck_basic as epb
-from imagepro import *
+#from imagepro import *
 #from ann.ann import Ann
 #from ann.parser import AnnParser
 

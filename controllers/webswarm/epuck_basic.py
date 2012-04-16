@@ -2,8 +2,8 @@
 from controller import *   # controller comes with Webots
 import time                # A Python primitive module
 import math                #   "            "
-import Image               # An extra Python module (that you'll have to download)
-import imagepro            # A module provided by Keith Downing for this assignment
+#import Image               # An extra Python module (that you'll have to download)
+#import imagepro            # A module provided by Keith Downing for this assignment
 
 # This is the basic class for controlling an epuck robot in the Webots simulator.  In theory, the
 # same code can also run a physical epuck robot with just the "flip of a switch" - although there are small
