@@ -1,4 +1,5 @@
 
+
 class BehaviorController(object):
 
     def __init__(self, robot):
@@ -15,8 +16,8 @@ class BehaviorController(object):
         layer.reset()
 
     def do_all(self):
-        
-        for i in range(len(self.layers)-1, -1, -1):
+
+        for i in range(len(self.layers) - 1, -1, -1):
             layer = self.layers[i]
             layer.do()
 
