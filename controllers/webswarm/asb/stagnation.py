@@ -41,6 +41,9 @@ class Stagnation(BehaviorModule):
     twice = 0
     align_counter = 0
 
+    search_layer = None
+    retrieval_layer = None
+
     ################################
     # Internal functions
     ################################
@@ -140,9 +143,9 @@ class Stagnation(BehaviorModule):
                 self.turn_counter = 0
                 self.turn_left = not(self.turn_left)
 
-            self.update_search_speed(distance_value, DIST_THRESHOLD)
-            self.left_wheel_speed = self.get_search_left_wheel_speed()
-            self.right_wheel_speed = self.get_search_right_wheel_speed()
+            self.search_layer.update_search_speed(distance_value, DIST_THRESHOLD)
+            self.left_wheel_speed = self.search_layer.left_wheel_speed
+            self.right_wheel_speed = self.search_layer.right_wheel_speed
 
             if self.left_wheel_speed > 0 and self.right_wheel_speed > 0:
                 self.left_wheel_speed = 1000
@@ -172,7 +175,6 @@ class Stagnation(BehaviorModule):
         """
         # Only assess this situation once
         # The front IR sensors pushing against the box
-
         dist_diff7 = prev_dist_value[7] - dist_value[7]
         dist_diff0 = prev_dist_value[0] - dist_value[0]
 
@@ -207,8 +209,17 @@ class Stagnation(BehaviorModule):
     def get_stagnation_right_wheel_speed(self):
         return self.right_wheel_speed
 
+    def do(self):
+        # Need a test if we are pushing and stagnating..
+        if self.retrieval_layer.push:
+            print "PUUUUSH"
+            self.valuate_pushing(self.robot.get_proximities(), self.robot.prev_dist_value)
+            print "Never here?"
+            if not self.has_recovered:
+                print "HELLUUUU WORLD"
+                self.stagnation_recovery(self.robot.dist_value, self.robot.distance_threshold)
 
-stag = Stagnation()
-print stag.get_stagnation_left_wheel_speed()
-stag.realign([0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9])
-print stag.get_stagnation_left_wheel_speed()
+            self.robot.update_green_LED(self.get_green_LED_state())
+
+            if self.has_recovered:
+                self.reset_stagnation()

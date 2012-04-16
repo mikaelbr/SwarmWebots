@@ -12,7 +12,8 @@ from behavior_module import *
 class Retrieval(BehaviorModule):
 
     num_leds = 8
-    push_threshold = 500
+    push_threshold = 100
+    push = False
 
     LED = [False] * 8
 
@@ -96,7 +97,6 @@ class Retrieval(BehaviorModule):
             self.push_box(IR_sensor_value, IR_threshold)
 
         else:  # converge
-            print "Converge"
             self.converge_to_box(IR_sensor_value, IR_threshold)
 
     def do(self):
