@@ -28,4 +28,3 @@ class BehaviorModule(object):
     def right_wheel_speed(self, value):
         self.reacted = True
         self._right_wheel_speed = value
-

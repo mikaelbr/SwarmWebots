@@ -100,7 +100,8 @@ class Retrieval(BehaviorModule):
             self.converge_to_box(IR_sensor_value, IR_threshold)
 
     def do(self):
-        self.swarm_retrieval(self.robot.IR_sensors, self.robot.IR_threshold)
+        self.swarm_retrieval(self.robot.get_IR(), self.robot.IR_threshold)
+        self.robot.update_LED(self.LED)  # Update LEDs
 
 """
 print left_wheel_speed

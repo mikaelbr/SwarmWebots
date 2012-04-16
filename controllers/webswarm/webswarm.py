@@ -1,91 +1,93 @@
-## This uses the EpuckBasic code as the interface to webots, and the epuck2 code to connect an ANN
-# to webots.
 
-import epuck_basic as epb
-#from imagepro import *
-#from ann.ann import Ann
-#from ann.parser import AnnParser
-
-# The webann is a descendent of the webot "controller" class, and it has the ANN as an attribute.
+from controller import *
+from asb.behavior_controller import *
+from asb.behavior_module import *
+from asb.search import *
 
 
-class Webswarm(epb.EpuckBasic):
 
-    def __init__(self, tempo=1.0):
-        epb.EpuckBasic.__init__(self)
+class Webswarm(DifferentialWheels):
 
-        self.basic_setup()  # defined for EpuckBasic
-        self.tempo = tempo
-        self.receiver = self.getReceiver('receiver')
+    max_wheel_speed = 1000
+
+    num_dist_sensors = 8
+    num_leds = 8
+    num_light_sensors = 8
+
+    encoder_resolution = 159.23  # for wheel encoders
+    wheel_diameter = 4.1  # centimeters
+    axle_length = 5.3  # centimeters
+
+    tempo = 1.0
+
+    def __init__(self, bc=None):
+        super(Webswarm, self).__init__()
+        if bc:
+            self.bc = bc
+            self.bc.robot = self
+
+        self.basic_setup()
+
+    def basic_setup(self):
         self.timestep = 64
-        self.receiver.enable(self.timestep)
 
-    def drive_speed(self, left=0, right=0):
+        # IR Receiver setup
+        # self.receiver = self.getReceiver('receiver')
+        # self.receiver.enable(self.timestep)
+
+        self.distance_threshold = [300] * 4
+
+        # Activate encoders for the weels
+        self.enableEncoders(self.timestep)
+
+        self._activate_distance()
+        self._activate_leds()
+
+    def _activate_distance(self):
         """
-            Drive with speed X and Y for left wheel (X) and right wheel (Y)
+            Distance sensor setup.
         """
-        ms = self.tempo * 1000
-        self.setSpeed(int(left * ms), int(right * ms))
+        self.dist_sensors = [self.getDistanceSensor('ps' + str(x)) for x in range(self.num_dist_sensors)]  # distance sensors
+        map((lambda s: s.enable(self.timestep)), self.dist_sensors)  # Enable all distance sensors
 
-    def read_receiver(self):
-        print "Queue Length: ", self.receiver.getQueueLength()
-        # print "Emitter dir", self.receiver.getEmitterDirection()
-        print "Channel", self.receiver.getChannel()
-        print "Signal Strength", self.receiver.getSignalStrength()
+    def _activate_leds(self):
+        """
+            Activate and retrieve the LEDs.
+        """
+        self.leds = [self.getLED('led' + str(i)) for i in range(self.num_leds)]
 
-        while self.receiver.getQueueLength() > 0:
-            print "Heeer"
-            message = self.receiver.getData()
-            self.receiver.nextPacket()
+    def _activate_IR(self):
+        """
+            Activate the IR sensors (light sensor)
+        """
+        self.IR_threshold = 1500
 
-            print message
+        self.IR_sensors = [self.getLightSensor('ls' + str(i)) for i in range(self.num_light_sensors)]
+        map((lambda s: s.enable(self.timestep)), self.IR_sensors)  # Enable all distance sensors
 
-            if message == "FOOD":
-                print "Found some food up in hea'"
+    def get_proximities(self):
+        return [x.getValue() for x in self.dist_sensors]
+
+    def get_IR(self):
+        return [x.getValue() for x in self.IR_sensors]
+
+    def update_LED(self, LED):
+        for i in range(self.num_leds):
+            self.leds[i].set(int(LED[i]))
 
     def run(self):
 
         while True:  # main loop
 
-            # self.read_receiver()
-
-            # print self.get_proximities()
-
-            # self.spin_angle(-.1)
-            # self.wait(0.3)
-            print "Her"
+            self.bc.step()
 
             if self.step(self.timestep) == -1:
                 break
 
+bc = BehaviorController()
+ws = Webswarm(bc)
 
-ws = Webswarm()
+bc.add_layer(Search())
+
+
 ws.run()
-
-
-"""
-
-public myFoodController() {
-    super();
-    
-    emitter = getEmitter("emitter");
-  }
-  public void run() {
-    do {
-      
-      emitter.send(message);
-    } while (step(64) != -1);
-  }
-epuck:
-epuck controller:
- while(receiver.getQueueLength()>0){
-        byte[] message = receiver.getData();
-        //System.out.println("Found message of length "+message.length);
-        if(message[0]==FOOD){
-          //System.out.println("Close to food!");
-          foundFood = true;
-        }
-        receiver.nextPacket();
-      }
-
-"""

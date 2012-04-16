@@ -2,22 +2,32 @@
 
 class BehaviorController(object):
 
-    def __init__(self, robot):
+    def __init__(self, robot = None):
         self.robot = robot
         self.layers = []
 
     def add_layer(self, layer):
+        """
+            Adds a layer to the stack.
+            Automaticly adds the robot to the layer.
+            Lowest priority should be added first.
+        """
         layer.robot = self.robot
         self.layers.append(layer)
 
     def step(self):
+        """
+            Run one time step of the robots movements
+        """
         layer = self.do_all()
-        self.robot.drive_speed(layer.left_wheel_speed, layer.right_wheel_speed)
+        self.robot.setSpeed(layer.left_wheel_speed, layer.right_wheel_speed)
         layer.reset()
 
     def do_all(self):
-
-        for i in range(len(self.layers) - 1, -1, -1):
+        """
+            Execute all layers in proper (descending) order.
+        """
+        for i in range(len(self.layers) - 1, 0, -1):
             layer = self.layers[i]
             layer.do()
 
@@ -27,11 +37,3 @@ class BehaviorController(object):
         # No layers reacted. Do the lowest pri-ed one.
         self.layers[0].do()
         return self.layers[0]
-
-
-bc = BehaviorController(None)
-# Lowest priority added first.
-bc.add_layer("search")
-# bc.add_layer("retrieval")
-# bc.add_layer("stagnation")
-bc.do_all()

@@ -86,7 +86,6 @@ class Search(BehaviorModule):
             Calculate if there is an obstacle or not, depending on the threshold
         """
         threshold_list = []
-
         for i in range(4):
             if sensors[i] > distance_threshold[i]:
                 threshold_list.append(1)  # obstacle
@@ -103,18 +102,4 @@ class Search(BehaviorModule):
         self.calculate_threshold(sensors, distance_threshold)
 
     def do(self):
-        self.update_search_speed(self.robot.distance_sensors, self.robot.distance_threshold)
-
-
-def main():
-    """
-        just for tests
-    """
-    s = Search()
-    s.rand_double()
-    sensor_value = [random() for i in range(8)]
-    distance_threshold = [random() for i in range(16)]
-    s.update_search_speed(sensor_value, distance_threshold)
-
-if __name__ == "__main__":
-    main()
+        self.update_search_speed(self.robot.get_proximities(), self.robot.distance_threshold)
