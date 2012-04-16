@@ -1,14 +1,9 @@
-## This uses the EpuckBasic code as the interface to webots, and the epuck2 code to connect an ANN
-# to webots.
 
 from controller import *
 from asb.behavior_controller import *
 from asb.behavior_module import *
 from asb.search import *
-#from ann.ann import Ann
-#from ann.parser import AnnParser
 
-# The webann is a descendent of the webot "controller" class, and it has the ANN as an attribute.
 
 
 class Webswarm(DifferentialWheels):
@@ -65,7 +60,7 @@ class Webswarm(DifferentialWheels):
         """
             Activate the IR sensors (light sensor)
         """
-        self.IR_threshold = 2000
+        self.IR_threshold = 1500
 
         self.IR_sensors = [self.getLightSensor('ls' + str(i)) for i in range(self.num_light_sensors)]
         map((lambda s: s.enable(self.timestep)), self.IR_sensors)  # Enable all distance sensors
