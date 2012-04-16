@@ -15,7 +15,7 @@ class IR_Emitters(Robot):
     def broadcast(self):
 
         while self.step(64) != -1:
-            print "dsa"
+            pass
             # print "Emitter", self.emitter
             # print "Channel", self.emitter.getChannel()
 
