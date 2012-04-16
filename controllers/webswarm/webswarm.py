@@ -3,12 +3,13 @@ from controller import *
 from asb.behavior_controller import *
 from asb.behavior_module import *
 from asb.search import *
+from asb.retrieval import *
 
 
 
 class Webswarm(DifferentialWheels):
 
-    max_wheel_speed = 1000
+    # max_wheel_speed = 1051
 
     num_dist_sensors = 8
     num_leds = 8
@@ -22,6 +23,7 @@ class Webswarm(DifferentialWheels):
 
     def __init__(self, bc=None):
         super(Webswarm, self).__init__()
+
         if bc:
             self.bc = bc
             self.bc.robot = self
@@ -42,6 +44,7 @@ class Webswarm(DifferentialWheels):
 
         self._activate_distance()
         self._activate_leds()
+        self._activate_IR()
 
     def _activate_distance(self):
         """
@@ -63,6 +66,7 @@ class Webswarm(DifferentialWheels):
         self.IR_threshold = 1500
 
         self.IR_sensors = [self.getLightSensor('ls' + str(i)) for i in range(self.num_light_sensors)]
+        print self.IR_sensors
         map((lambda s: s.enable(self.timestep)), self.IR_sensors)  # Enable all distance sensors
 
     def get_proximities(self):
@@ -78,7 +82,6 @@ class Webswarm(DifferentialWheels):
     def run(self):
 
         while True:  # main loop
-
             self.bc.step()
 
             if self.step(self.timestep) == -1:
@@ -88,6 +91,7 @@ bc = BehaviorController()
 ws = Webswarm(bc)
 
 bc.add_layer(Search())
+bc.add_layer(Retrieval())
 
 
 ws.run()

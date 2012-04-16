@@ -9,8 +9,8 @@ class IR_Emitters(Robot):
 
     def basic_setup(self):
         self.timestep = int(self.getBasicTimeStep())  # Fetched from WorldInfo.basicTimeStep (in the Webots world)
-        self.emitter = self.getEmitter("emitter")
-        self.emitter.setChannel(1)
+        # self.emitter = self.getEmitter("emitter")
+        # self.emitter.setChannel(1)
 
     def broadcast(self):
 

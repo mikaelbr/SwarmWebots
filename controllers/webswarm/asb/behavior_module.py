@@ -10,6 +10,7 @@ class BehaviorModule(object):
     def reset(self):
         self._left_wheel_speed = 0
         self._right_wheel_speed = 0
+        self.reacted = False
 
     @property
     def left_wheel_speed(self):

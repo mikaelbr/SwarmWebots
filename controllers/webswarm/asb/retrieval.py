@@ -14,10 +14,7 @@ class Retrieval(BehaviorModule):
     num_leds = 8
     push_threshold = 500
 
-    LED = []
-
-    def __init__(self):
-        super(Search, self).__init__()
+    LED = [False] * 8
 
     def update_speed(self, IR_number):
 
@@ -44,6 +41,8 @@ class Retrieval(BehaviorModule):
         """
             The movement for converging to the box
         """
+        self._left_wheel_speed = 0
+        self._right_wheel_speed = 0
         for i in range(self.num_leds):
 
             if IR_sensor_value[i] < IR_threshold:
@@ -56,8 +55,8 @@ class Retrieval(BehaviorModule):
         """
             The behavior when pushing the box
         """
-        self.left_wheel_speed = 0
-        self.right_wheel_speed = 0
+        self._left_wheel_speed = 0
+        self._right_wheel_speed = 0
 
         # Blink for visual pushing feedback
         for i in range(self.num_leds):
@@ -97,6 +96,7 @@ class Retrieval(BehaviorModule):
             self.push_box(IR_sensor_value, IR_threshold)
 
         else:  # converge
+            print "Converge"
             self.converge_to_box(IR_sensor_value, IR_threshold)
 
     def do(self):
