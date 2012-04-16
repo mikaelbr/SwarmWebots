@@ -9,8 +9,8 @@ WorldInfo {
   runRealTime TRUE
 }
 Viewpoint {
-  orientation -0.0346809 -0.903628 -0.426912 3.08547
-  position -0.0535034 2.80108 -2.36775
+  orientation -0.013383 -0.905806 -0.423482 3.17571
+  position 0.127829 2.7827 -2.43848
 }
 Background {
   skyColor [
@@ -111,8 +111,8 @@ Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF E_PUCK EPuck {
-  translation -0.400059 -0.000114119 0.0125566
-  rotation 0.000605171 1 0.000679696 1.45492
+  translation -0.491819 -6.74955e-005 0.0327327
+  rotation 3.15024e-006 1 3.53819e-006 1.45492
   controller "webswarm"
   name "e-puck camera"
   camera_windowPosition 0.126143 0.33765
@@ -120,8 +120,8 @@ DEF E_PUCK EPuck {
   camera_pixelSize 4
 }
 DEF FoodSource Robot {
-  translation -7.32191e-017 0.0498729 2.13938e-016
-  rotation -0.702253 0.16184 0.693288 -0
+  translation -8.30199e-017 0.0498729 2.18025e-016
+  rotation -0.973139 0.0831445 0.214681 -0
   children [
     PointLight {
       attenuation 1 2 3
@@ -132,6 +132,7 @@ DEF FoodSource Robot {
       appearance Appearance {
         material Material {
           diffuseColor 0.419608 0.984314 1
+          emissiveColor 1 1 1
           transparency 0.2
         }
       }
