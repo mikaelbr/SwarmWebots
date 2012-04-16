@@ -4,7 +4,7 @@ from asb.behavior_controller import *
 from asb.behavior_module import *
 from asb.search import *
 from asb.retrieval import *
-
+from asb.stagnation import *
 
 
 class Webswarm(DifferentialWheels):
@@ -21,6 +21,9 @@ class Webswarm(DifferentialWheels):
 
     tempo = 1.0
 
+    _dist_value = [0] * 8
+    prev_dist_value = [0] * 8
+
     def __init__(self, bc=None):
         super(Webswarm, self).__init__()
 
@@ -30,6 +33,15 @@ class Webswarm(DifferentialWheels):
 
         self.basic_setup()
 
+    @property
+    def dist_value(self):
+        return self._dist_value
+
+    @dist_value.setter
+    def dist_value(self, value):
+        self.prev_dist_value = self._dist_value
+        self._dist_value = value
+
     def basic_setup(self):
         self.timestep = 64
 
@@ -37,7 +49,8 @@ class Webswarm(DifferentialWheels):
         # self.receiver = self.getReceiver('receiver')
         # self.receiver.enable(self.timestep)
 
-        self.distance_threshold = [300] * 4
+        self.dist_threshold = 250
+        self.distance_threshold = [self.dist_threshold] * 4
 
         # Activate encoders for the weels
         self.enableEncoders(self.timestep)
@@ -58,6 +71,9 @@ class Webswarm(DifferentialWheels):
             Activate and retrieve the LEDs.
         """
         self.leds = [self.getLED('led' + str(i)) for i in range(self.num_leds)]
+        self.green_led = self.getLED('led8')
+        self.front_led = self.getLED('led9')
+        self.front_led.set(1)
 
     def _activate_IR(self):
         """
@@ -70,7 +86,8 @@ class Webswarm(DifferentialWheels):
         map((lambda s: s.enable(self.timestep)), self.IR_sensors)  # Enable all distance sensors
 
     def get_proximities(self):
-        return [x.getValue() for x in self.dist_sensors]
+        self.dist_value = [x.getValue() for x in self.dist_sensors]
+        return self.dist_value
 
     def get_IR(self):
         return [x.getValue() for x in self.IR_sensors]
@@ -78,6 +95,9 @@ class Webswarm(DifferentialWheels):
     def update_LED(self, LED):
         for i in range(self.num_leds):
             self.leds[i].set(int(LED[i]))
+
+    def update_green_LED(self, val):
+        self.green_led.set(int(val))
 
     def run(self):
 
@@ -90,8 +110,16 @@ class Webswarm(DifferentialWheels):
 bc = BehaviorController()
 ws = Webswarm(bc)
 
-bc.add_layer(Search())
-bc.add_layer(Retrieval())
+search = Search()
+retrieval = Retrieval()
+
+stagnation = Stagnation()
+stagnation.search_layer = search
+stagnation.retrieval_layer = retrieval
+
+bc.add_layer(search)
+bc.add_layer(retrieval)
+# bc.add_layer(stagnation)
 
 
 ws.run()
