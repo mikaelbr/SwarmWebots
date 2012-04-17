@@ -14,6 +14,7 @@ class Retrieval(BehaviorModule):
     num_leds = 8
     push_threshold = 100
     push = False
+    converge = False
 
     LED = [False] * 8
 
@@ -44,13 +45,18 @@ class Retrieval(BehaviorModule):
         """
         self._left_wheel_speed = 0
         self._right_wheel_speed = 0
+        all_out_of_range = 0
         for i in range(self.num_leds):
 
             if IR_sensor_value[i] < IR_threshold:
                 self.LED[i] = True
                 self.update_speed(i)
             else:
+                all_out_of_range += 1
                 self.LED[i] = False
+
+        self.converge = bool(sum([int(i) for i in self.LED]))
+        print "Converge: ", self.converge
 
     def push_box(self, IR_sensor_value, IR_threshold):
         """
@@ -86,6 +92,10 @@ class Retrieval(BehaviorModule):
     ####################################
     # External functions               #
     ####################################
+
+    def reset(self):
+        super(Retrieval, self).reset()
+        self.converge = False
 
     def swarm_retrieval(self, IR_sensor_value, IR_threshold):
         """
