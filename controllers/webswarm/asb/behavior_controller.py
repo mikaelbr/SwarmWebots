@@ -20,6 +20,7 @@ class BehaviorController(object):
             Run one time step of the robots movements
         """
         layer = self.do_all()
+        print "Mode: %s" % layer.__class__.__name__
         self.robot.setSpeed(layer.left_wheel_speed, layer.right_wheel_speed)
         layer.reset()
 

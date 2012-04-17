@@ -39,6 +39,7 @@ class Webswarm(DifferentialWheels):
 
     @dist_value.setter
     def dist_value(self, value):
+        print "her"
         self.prev_dist_value = self._dist_value
         self._dist_value = value
 
@@ -85,9 +86,9 @@ class Webswarm(DifferentialWheels):
         map((lambda s: s.enable(self.timestep)), self.IR_sensors)  # Enable all distance sensors
 
     def get_proximities(self):
-        return [x.getValue() for x in self.dist_sensors]
-        # self.dist_value = [x.getValue() for x in self.dist_sensors]
-        # return self.dist_value
+        # return [x.getValue() for x in self.dist_sensors]
+        self.dist_value = [x.getValue() for x in self.dist_sensors]
+        return self.dist_value
 
     def get_IR(self):
         return [x.getValue() for x in self.IR_sensors]
@@ -101,11 +102,8 @@ class Webswarm(DifferentialWheels):
 
     def run(self):
 
-        while True:  # main loop
+        while self.step(self.timestep) != -1:  # main loop
             self.bc.step()
-
-            if self.step(self.timestep) == -1:
-                break
 
 bc = BehaviorController()
 ws = Webswarm(bc)
@@ -115,10 +113,10 @@ retrieval = Retrieval()
 bc.add_layer(search)
 bc.add_layer(retrieval)
 
-# stagnation = Stagnation()
-# stagnation.search_layer = search
-# stagnation.retrieval_layer = retrieval
-# # bc.add_layer(stagnation)
+stagnation = Stagnation()
+stagnation.search_layer = search
+stagnation.retrieval_layer = retrieval
+bc.add_layer(stagnation)
 
 
 ws.run()
