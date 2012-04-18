@@ -9,8 +9,8 @@ WorldInfo {
   runRealTime TRUE
 }
 Viewpoint {
-  orientation 0.485469 -0.810541 -0.327633 5.02263
-  position 2.42424 2.36777 1.67046
+  orientation 0.537514 -0.720063 -0.438849 4.67897
+  position 2.8553 4.87217 1.29159
 }
 Background {
   skyColor [
@@ -112,8 +112,78 @@ Solid {
   boundingObject USE WALL_SHAPE
 }
 DEF E_PUCK EPuck {
-  translation 0.584296 -6.22693e-005 -0.0380681
-  rotation -0.000392933 -1 -0.000754178 2.11751
+  translation 0.901376 -6.39407e-05 0.875045
+  rotation -0.0001003 -1 -0.000272372 0.0782638
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.126143 0.33765
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
+  display_windowPosition 0.513416 0.60456
+}
+DEF E_PUCK EPuck {
+  translation -0.679442 -6.39407e-05 0.882322
+  rotation -0.0001003 -1 -0.000272372 3.21986
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.126143 0.33765
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
+  display_windowPosition 0.35303 0.739326
+}
+DEF E_PUCK EPuck {
+  translation 0.712664 -6.39407e-05 -0.585315
+  rotation -0.0001003 -1 -0.000272372 1.64906
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.126143 0.33765
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
+  display_windowPosition 0.35303 0.739326
+}
+DEF E_PUCK EPuck {
+  translation -0.75901 -6.39407e-05 -0.833313
+  rotation -0.0001003 -1 -0.000272372 1
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.126143 0.33765
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
+  display_windowPosition 0.35303 0.739326
+}
+DEF E_PUCK EPuck {
+  translation 0.0883032 -6.39407e-05 -0.709397
+  rotation -0.0001003 -1 -0.000272372 4.00526
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.126143 0.33765
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
+  display_windowPosition 0.35303 0.739326
+}
+DEF E_PUCK EPuck {
+  translation -0.722849 -6.39407e-05 0.303259
+  rotation -0.0001003 -1 -0.000272372 4
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.126143 0.33765
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
+  display_windowPosition 0.35303 0.739326
+}
+DEF E_PUCK EPuck {
+  translation 0.0172251 -6.39407e-05 0.826931
+  rotation -0.0001003 -1 -0.000272372 3.14159
+  controller "webswarm"
+  name "e-puck camera"
+  camera_windowPosition 0.126143 0.33765
+  camera_fieldOfView 0.6
+  camera_pixelSize 4
+  display_windowPosition 0.35303 0.739326
+}
+DEF E_PUCK EPuck {
+  translation 0.775158 -6.39407e-05 0.235839
+  rotation -0.0001003 -1 -0.000272372 2.43446
   controller "webswarm"
   name "e-puck camera"
   camera_windowPosition 0.126143 0.33765
@@ -122,8 +192,8 @@ DEF E_PUCK EPuck {
   display_windowPosition 0.35303 0.739326
 }
 DEF FoodSource Robot {
-  translation -3.66761e-008 0.0498729 0.000856842
-  rotation 6.22304e-016 -1 1.08095e-015 0.00758072
+  translation -0.000167137 0.0498729 0.000982314
+  rotation 0.000921349 -1 -9.43492e-06 0.00765284
   children [
     PointLight {
       location 0 1 0
