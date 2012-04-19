@@ -16,10 +16,10 @@ from behavior_module import *
 class Stagnation(BehaviorModule):
 
     IR_DIFF_THRESHOLD = 4
-    DISTANCE_DIFF_THRESHOLD = 10
+    DISTANCE_DIFF_THRESHOLD = 200
     REVERSE_LIMIT = 20
     TURN_LIMIT = 10
-    FORWARD_LIMIT = 40
+    FORWARD_LIMIT = 50
     NEIGHBOR_LIMIT = 300
 
     NEUTRAL = 3
@@ -112,7 +112,6 @@ class Stagnation(BehaviorModule):
 
         if self.twice == 2:  # Reverse, Turn, Forward, Turn(opposite), Forward.
 
-            print "In twice thingey"
             self.reset_stagnation()
             self.has_recovered = True
             self.green_LED_state = False
@@ -120,13 +119,11 @@ class Stagnation(BehaviorModule):
             self.twice = 3
 
         elif self.reverse_counter != self.REVERSE_LIMIT:  # Make space by moving away from the box
-            print "Reverese"
             self.reverse_counter += +1
             self.left_wheel_speed = -800
             self.right_wheel_speed = -800
 
         elif self.turn_counter != self.TURN_LIMIT:  # Line up with one of the sides of the box
-            print "Turn"
             self.turn_counter += 1
             self.forward_counter = 0
 
@@ -143,20 +140,19 @@ class Stagnation(BehaviorModule):
                 self.right_wheel_speed = -300
 
         elif self.forward_counter != self.FORWARD_LIMIT:
-            print "Forward"
             self.forward_counter += 1
             if self.forward_counter == self.FORWARD_LIMIT - 1:
                 self.twice += 1
                 self.turn_counter = 0
                 self.turn_left = not(self.turn_left)
 
-            # self.search_layer.update_search_speed(distance_value, DIST_THRESHOLD)
-            # self.left_wheel_speed = self.search_layer.left_wheel_speed
-            # self.right_wheel_speed = self.search_layer.right_wheel_speed
+            self.search_layer.update_search_speed(distance_value, DIST_THRESHOLD)
+            self.left_wheel_speed = self.search_layer.left_wheel_speed
+            self.right_wheel_speed = self.search_layer.right_wheel_speed
 
-            # if self.left_wheel_speed > 0 and self.right_wheel_speed > 0:
-            self.left_wheel_speed = 1000
-            self.right_wheel_speed = 1000
+            if self.left_wheel_speed > 0 and self.right_wheel_speed > 0:
+                self.left_wheel_speed = 1000
+                self.right_wheel_speed = 1000
 
     def reset_stagnation(self):
         self.has_recovered = False
@@ -170,16 +166,13 @@ class Stagnation(BehaviorModule):
     def stagnation_recovery(self, distance_sensors_value, DIST_THRESHOLD):
 
         if self.align_counter < 2:  # Align
-            print "Align"
             self.align_counter += 1
             self.realign(distance_sensors_value)
 
         elif self.align_counter > 0:  # Reposition
-            print "Reposition"
 
             # iterations = self.REVERSE_LIMIT + (self.TURN_LIMIT * 3) + (self.FORWARD_LIMIT * 2) + 1
             while True:
-                print "In reposition loop"
                 self.LED_blink()
                 self.find_new_spot(self.robot.get_proximities(), DIST_THRESHOLD)
                 self.robot.setSpeed(self.left_wheel_speed, self.right_wheel_speed)
@@ -205,6 +198,7 @@ class Stagnation(BehaviorModule):
                 or
                 (((dist_value[5] > self.NEIGHBOR_LIMIT) or (dist_value[2] > self.NEIGHBOR_LIMIT)) and random() > 0.5)
             ):
+
             self.has_recovered = True  # Keep pushing, it is working
             self.green_LED_state = False  # No more recovery
             self.align_counter = 0
@@ -213,12 +207,12 @@ class Stagnation(BehaviorModule):
             self.set_feedback(-1)
             self.stagnation_recovery(dist_value, self.robot.distance_threshold)
 
-    def set_feedback(self, num=-1):
+    def set_feedback(self, num):
         self.feedback = min(8, max(1, self.feedback + num))
         return self.feedback
 
     def time_reviewed(self):
-        return ((5 / (10 - self.feedback)) * 100) + 50
+        return int(((float(5) / (10 - self.feedback)) * 100) + 50)
 
     def get_stagnation_state(self):
         """
@@ -238,42 +232,21 @@ class Stagnation(BehaviorModule):
     def get_stagnation_right_wheel_speed(self):
         return self.right_wheel_speed
 
-    # def do(self):
-    #     # Need a test if we are pushing and stagnating..
-    #     if self.retrieval_layer.push:
-    #         print "PUUUUSH"
-    #         self.valuate_pushing(self.robot.get_proximities(), self.robot.prev_dist_value)
-    #         print "Never here?"
-    #         if not self.has_recovered:
-    #             print "HELLUUUU WORLD"
-    #             self.stagnation_recovery(self.robot.dist_value, self.robot.distance_threshold)
-
-    #         self.robot.update_green_LED(self.get_green_LED_state())
-
-    #         # if self.has_recovered:
-    #         #     self.reset_stagnation()
-
     def do(self):
 
         close_to_box = self.retrieval_layer.converge or self.retrieval_layer.push
-        print self.retrieval_layer.converge, self.retrieval_layer.push, self.retrieval_layer.converge or self.retrieval_layer.push
-        print "Run_timestep", self.run_timestep
 
         if close_to_box and self.run_timestep >= self.time_reviewed():
-            print "In hea!"
             # Feedback run.
+
             dsp = self.robot.get_proximities()
-            self.robot.step(10 * self.robot.timestep)
+            self.robot.step(10 * self.robot.timestep)  # wait 10 timesteps to check if push
             ds = self.robot.get_proximities()
 
             # Review the progression
-            print "Valuate pushing"
             self.valuate_pushing(ds, dsp)
             self.robot.update_green_LED(self.get_green_LED_state())
 
             self.run_timestep = 0
         elif close_to_box and self.run_timestep < self.time_reviewed():
             self.run_timestep += 1
-        else:
-            print "Not close to the box"
-            self.reset_stagnation()

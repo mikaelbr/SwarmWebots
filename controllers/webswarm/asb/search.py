@@ -37,9 +37,9 @@ class Search(BehaviorModule):
         [1, 0, 1, 0, 0, 1],
         [1, 0, 1, 1, 1, 0],
         [1, 1, 0, 0, 0, 1],
-        [1, 1, 0, 1, 1, 0],
+        [1, 1, 0, 1, 0, 1],
         [1, 1, 1, 0, 0, 1],
-        [1, 1, 1, 1, 0, 1]
+        [1, 1, 1, 1, 0, 0]
     ]
 
     def __init__(self):
@@ -60,26 +60,45 @@ class Search(BehaviorModule):
 
         for i in range(16):
 
-            if threshold_list[0] == self.case_script[i][0]\
-               and threshold_list[1] == self.case_script[i][1]\
-               and threshold_list[2] == self.case_script[i][2]\
-               and threshold_list[3] == self.case_script[i][3]:
+            if threshold_list == self.case_script[i][:4]:
 
                 if self.counter == self.count_limit:
                     self.counter = 0
                     self.rand_double()
 
-                if self.case_script[i][4] == self.case_script[i][5]:  # Free passage; Straight forward
-                    self.left_wheel_speed = (self.rand_double_left * 500) + 500
-                    self.right_wheel_speed = (self.rand_double_right * 500) + 500
+                if self.case_script[i][4] == self.case_script[i][5]:
+
+                    if self.case_script[i][4]:
+                        self.left_wheel_speed = (self.rand_double_left * 500) + 500
+                        self.right_wheel_speed = (self.rand_double_right * 500) + 500
+                    else:
+
+                        # if random() > 0.5:
+                            self.left_wheel_speed = -300
+                            self.right_wheel_speed = 700
+                        # else:
+                        #     self.left_wheel_speed = 700
+                        #     self.right_wheel_speed = -300
 
                 elif self.case_script[i][4] == 1 and self.case_script[i][5] == 0:  # Turn left
                     self.left_wheel_speed = -300
                     self.right_wheel_speed = 700
 
+                    # Make so the robot tries a new direction next time
+                    self.counter = 10
+                    self.rand_double_left = 0.3
+                    self.rand_double_right = 0.7
+
                 else:  # Turn right
                     self.left_wheel_speed = 700
                     self.right_wheel_speed = -300
+
+                    # Make so the robot tries a new direction next time
+                    self.counter = 10
+                    self.rand_double_left = 0.7
+                    self.rand_double_right = 0.3
+
+                return
 
     def calculate_threshold(self, sensors, distance_threshold):
         """

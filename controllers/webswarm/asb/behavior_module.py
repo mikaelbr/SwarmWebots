@@ -1,3 +1,14 @@
+"""
+    A module used by the behavior controller. This is the base
+    layer ment to be extended by different implementations.
+
+    All layers must implement their own do() method.
+
+    When either left or right wheel speed is set/altered,
+    the reacted flag will be set, and the controller know
+    that this layer has been executed (reacted).
+"""
+
 
 class BehaviorModule(object):
 
@@ -29,3 +40,10 @@ class BehaviorModule(object):
     def right_wheel_speed(self, value):
         self.reacted = True
         self._right_wheel_speed = value
+
+    def do(self):
+        """
+            Implementation method. Abstract in this case,
+            but must be implementet by the sub classes.
+        """
+        pass

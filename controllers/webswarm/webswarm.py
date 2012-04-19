@@ -21,8 +21,7 @@ class Webswarm(DifferentialWheels):
 
     tempo = 1.0
 
-    _dist_value = [0] * 8
-    prev_dist_value = [0] * 8
+    dist_value = [0] * 8
 
     def __init__(self, bc=None):
         super(Webswarm, self).__init__()
@@ -33,16 +32,6 @@ class Webswarm(DifferentialWheels):
 
         self.basic_setup()
 
-    @property
-    def dist_value(self):
-        return self._dist_value
-
-    @dist_value.setter
-    def dist_value(self, value):
-        print "her"
-        self.prev_dist_value = self._dist_value
-        self._dist_value = value
-
     def basic_setup(self):
         self.timestep = 64
 
@@ -50,7 +39,7 @@ class Webswarm(DifferentialWheels):
         # self.receiver = self.getReceiver('receiver')
         # self.receiver.enable(self.timestep)
 
-        self.distance_threshold = [300] * 4
+        self.distance_threshold = [100, 200, 200, 100]
 
         # Activate encoders for the weels
         self.enableEncoders(self.timestep)
@@ -79,14 +68,12 @@ class Webswarm(DifferentialWheels):
         """
             Activate the IR sensors (light sensor)
         """
-        self.IR_threshold = 1500
+        self.IR_threshold = 2000
 
         self.IR_sensors = [self.getLightSensor('ls' + str(i)) for i in range(self.num_light_sensors)]
-        print self.IR_sensors
         map((lambda s: s.enable(self.timestep)), self.IR_sensors)  # Enable all distance sensors
 
     def get_proximities(self):
-        # return [x.getValue() for x in self.dist_sensors]
         self.dist_value = [x.getValue() for x in self.dist_sensors]
         return self.dist_value
 

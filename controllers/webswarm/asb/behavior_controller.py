@@ -1,8 +1,13 @@
+"""
+    Controller for behavior layers with the subsumtion layer.
+    The first layers added with add_layer() are the layers that
+    are the least prioritised.
+"""
 
 
 class BehaviorController(object):
 
-    def __init__(self, robot = None):
+    def __init__(self, robot=None):
         self.robot = robot
         self.layers = []
 

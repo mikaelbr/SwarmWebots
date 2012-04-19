@@ -12,7 +12,7 @@ from behavior_module import *
 class Retrieval(BehaviorModule):
 
     num_leds = 8
-    push_threshold = 100
+    push_threshold = 10
     push = False
     converge = False
 
@@ -25,9 +25,9 @@ class Retrieval(BehaviorModule):
         elif IR_number == 7:
             self.right_wheel_speed += 700
         elif IR_number == 1:
-            self.left_wheel_speed += 350
+            self.left_wheel_speed += 300
         elif IR_number == 6:
-            self.right_wheel_speed += 350
+            self.right_wheel_speed += 300
         elif IR_number == 2:
             self.left_wheel_speed += 550
             self.right_wheel_speed -= 300
@@ -56,7 +56,6 @@ class Retrieval(BehaviorModule):
                 self.LED[i] = False
 
         self.converge = bool(sum([int(i) for i in self.LED]))
-        print "Converge: ", self.converge
 
     def push_box(self, IR_sensor_value, IR_threshold):
         """
@@ -102,7 +101,6 @@ class Retrieval(BehaviorModule):
             Converge, push, and stagnation recovery
         """
         self.select_behavior(IR_sensor_value)
-
         if self.push:
             self.push_box(IR_sensor_value, IR_threshold)
 
@@ -112,9 +110,3 @@ class Retrieval(BehaviorModule):
     def do(self):
         self.swarm_retrieval(self.robot.get_IR(), self.robot.IR_threshold)
         self.robot.update_LED(self.LED)  # Update LEDs
-
-"""
-print left_wheel_speed
-update_speed(0)
-print left_wheel_speed
-"""
