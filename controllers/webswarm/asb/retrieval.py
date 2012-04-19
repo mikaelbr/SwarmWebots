@@ -45,16 +45,16 @@ class Retrieval(BehaviorModule):
         """
         self._left_wheel_speed = 0
         self._right_wheel_speed = 0
-        all_out_of_range = 0
+
         for i in range(self.num_leds):
 
             if IR_sensor_value[i] < IR_threshold:
                 self.LED[i] = True
                 self.update_speed(i)
             else:
-                all_out_of_range += 1
                 self.LED[i] = False
 
+        # Check if out of range.
         self.converge = bool(sum([int(i) for i in self.LED]))
 
     def push_box(self, IR_sensor_value, IR_threshold):

@@ -26,7 +26,7 @@ class Stagnation(BehaviorModule):
     feedback = 5
     run_timestep = 0
 
-    ALIGN_STRAIGTH_THRESHOLD = 10  # If bigger, align straight
+    ALIGN_STRAIGTH_THRESHOLD = 100  # If bigger, align straight
     LOW_DIST_VALUE = 10  # if lower (and detecting IR), the sensor is close.
 
     # Boolean variables
@@ -171,11 +171,12 @@ class Stagnation(BehaviorModule):
 
         elif self.align_counter > 0:  # Reposition
 
-            # iterations = self.REVERSE_LIMIT + (self.TURN_LIMIT * 3) + (self.FORWARD_LIMIT * 2) + 1
+            # Iterate until the robot is finished with reposition
             while True:
                 self.LED_blink()
                 self.find_new_spot(self.robot.get_proximities(), DIST_THRESHOLD)
                 self.robot.setSpeed(self.left_wheel_speed, self.right_wheel_speed)
+                self.robot.update_green_LED(self.get_green_LED_state())
 
                 if self.robot.step(self.robot.timestep) == -1 or self.twice > 2:
                     self.twice = 0
@@ -234,9 +235,10 @@ class Stagnation(BehaviorModule):
 
     def do(self):
 
-        close_to_box = self.retrieval_layer.converge or self.retrieval_layer.push
+        if not (self.retrieval_layer.converge or self.retrieval_layer.push):
+            return
 
-        if close_to_box and self.run_timestep >= self.time_reviewed():
+        if self.run_timestep >= self.time_reviewed():
             # Feedback run.
 
             dsp = self.robot.get_proximities()
@@ -248,5 +250,5 @@ class Stagnation(BehaviorModule):
             self.robot.update_green_LED(self.get_green_LED_state())
 
             self.run_timestep = 0
-        elif close_to_box and self.run_timestep < self.time_reviewed():
+        else:
             self.run_timestep += 1
