@@ -1,0 +1,34 @@
+\section{Changes to the behaviour module}
+
+Beyond the obvious changes to the code base, like translating to the python programming language, and with that change some of the architecture, some minor changes has been made the to behaviour modules. We found that the original code worked rather well, and there was no clear weakness that could be enhanced. 
+
+\subsection{Search module}
+
+\subsubsection{Fixed inconsistencies in the case scripts}
+The case scripts, used to handle avoidance of objects, worked mostly very well, but there were some errors that could be fixed. E.g. The case $[1, 1, 0, 1]$ (block on both the left sensor and the one far to the right) was set to turn left. This doesn't make that much sense, as it should turn to the side with less resistance/obstacles. This can also be reflected to the case $[1, 0, 1, 1]$, which was also set to turn left. The $[1, 1, 0, 1]$ case was then set to turn right, instead of turning left. 
+
+\subsubsection{Reset random factor for turn after a wall crash}
+When searching for the food source, the search module uses a random factor to be able to search in different places. This, sometimes, results in illogical decisions. One could argue that ant aren't that logical to start with, but its seen that ants remembers the path they've taken. So if the e-puck crashed in the wall, it shouldn't try to crash into that same wall again. 
+
+
+Lets say the random value for left wheel is set to 0.2 and the right wheel at 0.8. When meeting a wall and turning right, the e-puck will again turn into the wall (if it's a while until the random factors resets). In stead of doing this, we've expanded the code to do the following: After a turn, reset the random factors to favour turn in the same direction that the e-puck just turned – but only do so for 10 epochs (half of the original iteration count). The reductions of epochs is due to not over compensate and turning into the wall again the other direction. 
+
+\subsection{Retrieval module}
+The threshold values were altered to suit the simulator, instead of the real world example as with the code given with this projects. There were some differences both in the IR light source from the food source, as well as with the other sensory inputs. 
+
+\subsubsection{Minor enhancement in checking for convergence}
+There were implemented some minor changes to the check if the robot is converting. The robot will now set the converge flag to false if it gets out of range during converging. As the stagnation module is using this module to check for state, it needs to be responsive and stable. 
+
+\subsection{Stagnation module} 
+
+As with the retrieval module, the threshold had to be adjusted. The set thresholds were not working with their original values. Some work went into trying to set these thresholds to be optimal.  
+
+\subsubsection{Overall algorithm for stagnation}
+We implemented stagnation according to the description in chapter 6 of the master thesis\cite{master}, whereas you start at 150 epochs when a robot registers a food source. After iterating through all epochs, the push state is evaluated and results in either a positive or negative feedback. A negative feedback (where either reposition or realignment is performed), will result in the epochs of action is decreased, positive feedback will keep the e-puck pushing, i.e. the controller will turn to the next module (retrieval) to handle behaviour. The controller will also go to the next module if no push or converge flags are detected. 
+
+To evaluating if stagnation occurs, we first read out the proximity sensor values, wait for 10 time steps (in our case wait ($10 * 64$)), and then measure the distance again. 
+
+\subsubsection{Repositioning}
+We set the reposition to have a high precedence. When it's started it won't halt until it’s done. This might not sound very efficient for solving the overall task, but in practice it seems to work really well. This way it does not take part of the epoch runs mentioned in the previous section. While in the reposition mode, the search module is used to avoid obstacles if necessary.  
+
+As partly mentioned earlier in this report, we contemplated about finding a way to measure positive or negative distance covered by the robot, but couldn't find a way of doing that, only using the IR and distance sensors. If we had access to this information, it would improve the overall system a great deal. The e-pucks could have reposition straight away, when a negative distance covered was measured. It could also have worked the other way, create a more stable push evaluating, i.e. when positive distance covered measured and e-puck in push mode, we know it's working properly. 

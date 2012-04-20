@@ -1,0 +1,12 @@
+\section{Description of system overview}
+
+\subsection{Behavior-based control}
+
+\insertfig{flow}{Structure of our behavior-based system}
+
+In behavior-based systems, the robot’s movement is determined via interaction between behaviors. All the information that the robot has about the environment comes through sensors. In this project we’ve implemented Brook’s subsumption architecture. As shown in Figure 1, this architecture consists of several layers, where the top layer has the highest priority. The lowest layer is usually considered what’s needed to survive, while the other layers are used to trigger certain behavior. Higher priority layers can supress lower ones, and shouldn’t be triggered if there’s a risk of not surviving.
+
+
+\subsection{Code overview}
+
+\insertfig{class}{Class diagram}

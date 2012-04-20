@@ -1,2 +1,11 @@
 .DS_Store
 *.pyc
+docs/*.aux
+docs/*.log
+docs/*.bbl
+docs/*.dvi
+docs/*.lof
+docs/*.out
+docs/*.gz
+docs/*.toc
+docs/*.blg
